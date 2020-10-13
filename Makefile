@@ -1,7 +1,8 @@
 SHELL := /bin/sh
 
+VERSION = v0.3.3
 BINARY_NAME ?= gcp-quota-exporter
-DOCKER_REGISTRY ?= mintel
+DOCKER_REGISTRY ?= gcr.io/pingcap-public
 DOCKER_IMAGE = ${DOCKER_REGISTRY}/${BINARY_NAME}
 
 VERSION ?= $(shell echo `git symbolic-ref -q --short HEAD || git describe --tags --exact-match` | tr '[/]' '-')
@@ -15,6 +16,10 @@ build : gcp-quota-exporter
 gcp-quota-exporter : main.go
 	@echo "building go binary"
 	@CGO_ENABLED=0 GOOS=linux go build .
+
+docker: 
+	docker build -t ${DOCKER_IMAGE}:${VERSION} -f Dockerfile .
+	docker push ${DOCKER_IMAGE}:${VERSION}
 
 test : check-test-env
 	@if [[ ! -d ${ARTIFACTS} ]]; then \

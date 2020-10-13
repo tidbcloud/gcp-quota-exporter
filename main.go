@@ -93,10 +93,6 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	project, regionList := e.scrape()
 
 	if project != nil {
-		for _, quota := range project.Quotas {
-			ch <- prometheus.MustNewConstMetric(limitDesc, prometheus.GaugeValue, quota.Limit, e.project, "", quota.Metric)
-			ch <- prometheus.MustNewConstMetric(usageDesc, prometheus.GaugeValue, quota.Usage, e.project, "", quota.Metric)
-		}
 		ch <- prometheus.MustNewConstMetric(projectQuotaUpDesc, prometheus.GaugeValue, 1)
 	} else {
 		ch <- prometheus.MustNewConstMetric(projectQuotaUpDesc, prometheus.GaugeValue, 0)
