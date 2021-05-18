@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-VERSION = v0.3.3
+VERSION = v0.3.4
 BINARY_NAME ?= gcp-quota-exporter
 DOCKER_REGISTRY ?= gcr.io/pingcap-public
 DOCKER_IMAGE = ${DOCKER_REGISTRY}/${BINARY_NAME}
